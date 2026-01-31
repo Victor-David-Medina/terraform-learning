@@ -1,17 +1,17 @@
-# Terraform files to ignore!
+@"
+# Terraform
+.terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
-.terraform/
 .terraform.lock.hcl
 crash.log
-crash.*.log
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-.terragrunt-cache/
 
-# AWS credentials (Never commit credentials files!)
+# AWS
 .aws/
 *.pem
+"@ | Out-File -FilePath .gitignore -Encoding UTF8
