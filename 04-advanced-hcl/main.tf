@@ -1,51 +1,41 @@
 # 04-advanced-hcl/main.tf
-# COMPLETE FILE — for_each example
+# COMPLETE FILE — workspaces example
 
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
+    required_providers {
+            aws      = {
+            source   = "hashicorp/aws"
+            version  = "~> 5.0"
+        }
     }
-  }
 }
 
 provider "aws" {
-  region = "us-east-1"
+            region   = "us-east-1"
 }
 
-# Map of subnets with meaningful names
-variable "subnets" {
-  default = {
-    web = "10.0.1.0/24"
-    app = "10.0.2.0/24"
-    db  = "10.0.3.0/24"
-  }
-}
-
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
-  tags       = { Name = "vdm-foreach-demo-vpc" }
-}
-
-# for_each creates subnets with NAMED keys
-resource "aws_subnet" "named" {
-  for_each = var.subnets
-
-  vpc_id     = aws_vpc.main.id
-  cidr_block = each.value
-
-  tags = {
-    Name = "vdm-${each.key}-subnet"
-    Tier = each.key
-  }
-}
-
-output "subnet_details" {
-  value = {
-    for k, v in aws_subnet.named : k => {
-      id   = v.id
-      cidr = v.cidr_block
+#Different S3 CIDR based on workspace
+locals {
+    workspace_config = {
+        default      = "10.0.0.0/16"
+        dev          = "10.1.0.0/16"
+        prod         = "10.2.0.0/16"
     }
-  }
+    vpc_cidr         = lookup(local.workspace_config, terraform.workspace, "10.0.0.0/16")
+}
+resource "aws_vpc" "main" {
+    cidr_block       = local.vpc_cidr
+
+    tags             = {
+        Name         = "vdm-${terraform.workspace}-vpc"
+        Environment  = terraform.workspace
+    }
+}
+
+output "workspace" {
+        value        = terraform.workspace
+}
+
+output "vpc_cidr" {
+        value        = aws_vpc.main.cidr_block
 }
