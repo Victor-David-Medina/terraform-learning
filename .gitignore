@@ -15,3 +15,7 @@ override.tf.json
 # AWS credentials
 .aws/
 *.pem
+
+# Infracost cache files
+.infracost/*.gob
+.infracost/terraform_modules/
