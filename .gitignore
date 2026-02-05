@@ -1,21 +1,37 @@
-﻿# Terraform - NEVER upload these
-.terraform/
+# Terraform
+
 *.tfstate
+
 *.tfstate.*
+
+.terraform/
+
+*.tfplan
+
+crash.log
+
 .terraform.lock.hcl
 
 # Sensitive files
-*.tfvars
-crash.log
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
 
-# AWS credentials
-.aws/
+*.tfvars
+
+!*.tfvars.example
+
 *.pem
 
-# Infracost cache files
-.infracost/*.gob
-.infracost/terraform_modules/
+*.key
+
+# IDE
+
+.vscode/
+
+.idea/
+
+*.swp
+
+# OS
+
+.DS_Store
+
+Thumbs.db
