@@ -1,0 +1,25 @@
+# ADR-002: Auto Scaling Strategy
+
+**Status:** Accepted | **Date:** 2026-01-22
+
+## Context
+
+We need elastic compute capacity that scales automatically based on demand while controlling costs.
+
+## Decision
+
+Use Target Tracking scaling with CPU metric:
+
+- **Min:** 2 (maintain HA)
+
+- **Max:** 6 (cost cap)
+
+- **Desired:** 2
+
+- **Target CPU:** 70%
+
+## Consequences
+
+**Positive:** Automatic scaling, CloudWatch handles metrics, predictable behavior
+
+**Trade-offs:** CPU may not suit all workloads, 5-min cooldown delays scale-in
