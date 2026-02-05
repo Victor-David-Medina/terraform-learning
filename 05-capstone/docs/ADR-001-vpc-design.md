@@ -1,8 +1,14 @@
 # ADR-001: VPC Architecture Design
 
+
+
 **Status:** Accepted | **Date:** 2026-01-20
 
+
+
 ## Context
+
+
 
 We need a VPC design that provides:
 
@@ -14,7 +20,11 @@ We need a VPC design that provides:
 
 - Cost-effective for demonstration purposes
 
+
+
 ## Decision
+
+
 
 Implement a multi-AZ VPC with:
 
@@ -26,7 +36,11 @@ Implement a multi-AZ VPC with:
 
 - **Single NAT Gateway** in public subnet (cost optimization)
 
+
+
 ## Consequences
+
+
 
 **Positive:**
 
@@ -36,8 +50,26 @@ Implement a multi-AZ VPC with:
 
 - Follows AWS Well-Architected Framework
 
+
+
 **Trade-offs:**
 
 - Single NAT Gateway is SPOF (acceptable for demo)
 
 - Cross-AZ data transfer costs if NAT fails over
+
+
+
+## Alternatives Considered
+
+
+
+1. **NAT Instance** - Rejected: More operational overhead, less reliable
+
+2. **VPC Endpoints** - Rejected: Doesn't cover all services needed
+
+3. **Single-AZ** - Rejected: Not a production pattern
+
+
+
+#
